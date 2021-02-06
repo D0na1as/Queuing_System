@@ -13,5 +13,6 @@ public class UserController {
     // 2.1. Mark visit begun
     // 2.2. Mark visit ended
     // 2.3. Mark visit canceled
+    // 3. Info Screen page
 
 }
