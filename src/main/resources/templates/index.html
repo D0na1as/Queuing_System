@@ -32,24 +32,57 @@
         </p>
     </div>
 </section>
-<!-- Registration Modal HTML -->
-<div id="registerModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form th:action="@{/inbound/update}" th:object="${newItem}" method="POST">
-                <div class="modal-header">
-                    <h4 class="modal-title">Stack item in shelf:</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <div class="modal-body">
-                        <p>Are you sure you want to delete these Records?</p>
-                        <p class="text-warning"><small>This action cannot be undone.</small></p>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                        <input type="submit" class="btn btn-danger" value="Delete">
-                    </div>
-            </form>
-        </div>
+<!-- Choose Specialist Modal HTML -->
+<div id="chooseModal"  class="modal-dialog modal-login">
+    <div class="modal-content">
+        <form action="/examples/actions/confirmation.php" method="post">
+            <div class="modal-header">
+                <h4 class="modal-title">Choose Mentor</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <select class="selectpicker" data-container="body">
+                    <option>Mustard</option>
+                    <option>Ketchup</option>
+                    <option>Relish</option>
+                    <option>Ketchup</option>
+                    <option>Relish</option>
+                    <option>Ketchup</option>
+                    <option>Relish</option>
+                    <option>Ketchup</option>
+                    <option>Relish</option>
+                    <option>Ketchup</option>
+                    <option>Relish</option>
+                    <option>Ketchup</option>
+                    <option>Relish</option>
+                </select>
+            </div>
+            <div class="modal-footer justify-content-end">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <input type="submit" class="btn btn-primary" value="Confirm">
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Check Appointment Modal HTML -->
+<div id="checkModal"  class="modal-dialog modal-login">
+    <div class="modal-content">
+        <form action="/examples/actions/confirmation.php" method="post">
+            <div class="modal-header">
+                <h4 class="modal-title">Check Appointment</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Serial Number</label>
+                    <input type="text" class="form-control" required="required">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-end">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <input type="submit" class="btn btn-primary" value="Check">
+            </div>
+        </form>
     </div>
 </div>
 
