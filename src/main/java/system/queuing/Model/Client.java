@@ -7,17 +7,18 @@ public class Client {
 
     @Id
     private int id;
-    private String queNr;
+    @Column(name="que_nr")
+    private int queNr;
     private String serial;
-    private int status;
+    private String status;
     private String date;
-    //Recieving person
+    //Receiving person
     private String user;
 
     public Client() {
     }
 
-    public Client(int id, String queNr, String serial, int status, String date, String user) {
+    public Client(int id, int queNr, String serial, String status, String date, String user) {
         this.id = id;
         this.queNr = queNr;
         this.serial = serial;
@@ -34,11 +35,11 @@ public class Client {
         this.id = id;
     }
 
-    public String getQueNr() {
+    public int getQueNr() {
         return queNr;
     }
 
-    public void setQueNr(String queNr) {
+    public void setQueNr(int queNr) {
         this.queNr = queNr;
     }
 
@@ -50,11 +51,11 @@ public class Client {
         this.serial = serial;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

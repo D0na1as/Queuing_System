@@ -21,6 +21,4 @@ public class ClientController {
     @Autowired
     UserService userSrv;
 
-
-
 }

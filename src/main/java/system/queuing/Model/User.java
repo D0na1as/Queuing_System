@@ -9,6 +9,7 @@ public class User {
 
     @Id
     private int id;
+    @Transient
     private String username;
     private String name;
     @Transient
