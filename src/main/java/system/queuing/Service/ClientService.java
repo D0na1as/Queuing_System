@@ -18,6 +18,9 @@ public class ClientService {
     Utils utils;
     @Value("${registered}")
     String registered;
+    @Value("${canceled}")
+    String cancel;
+
 
     public Client register(String name) throws ParseException {
         String date =  utils.getDate();
@@ -31,6 +34,14 @@ public class ClientService {
             client.setDate(date);
             return clientRepo.save(client);
         } else return null;
+    }
+
+    public Client getClient(String serial) {
+        return clientRepo.getClient(serial);
+    }
+
+    public void cancelMeeting(String serial) {
+        clientRepo.cancel(serial, cancel);
     }
 
     private String genSerial() {

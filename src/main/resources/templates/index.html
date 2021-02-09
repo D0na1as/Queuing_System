@@ -37,7 +37,7 @@
 <div id="chooseModal" class="modal fade bg-dark" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form th:action="@{/register}" method="POST">
+            <form th:action="@{/client/register}" method="POST">
                 <div class="modal-header">
                     <h4 class="modal-title">Choose Mentor</h4>
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
@@ -59,7 +59,7 @@
 <div id="checkModal" class="modal fade bg-dark" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/examples/actions/confirmation.php" method="post">
+            <form th:action="@{/check}" method="GET">
                 <div class="modal-header">
                     <h4 class="modal-title">Check Appointment</h4>
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
@@ -67,7 +67,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Serial Number</label>
-                        <input type="text" class="form-control" required="required">
+                        <input type="text" name="serial"  class="form-control" required="required">
                     </div>
                 </div>
                 <div class="modal-footer justify-content-end">
