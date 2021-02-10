@@ -14,7 +14,7 @@
 <section class="jumbotron text-center">
     <div class="container">
         <div class="login">
-            <a href="/" class="btn btn-primary rounded-circle size" >
+            <a th:href="@{/user/}"  class="btn btn-primary rounded-circle size" >
                 <img th:src="@{/img/sign-out.svg}" data-toggle="tooltip" data-placement="top" title="Login">
             </a>
         </div>
@@ -59,7 +59,7 @@
 <div id="checkModal" class="modal fade bg-dark" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form th:action="@{/check}" method="GET">
+            <form th:action="@{/client/check}" method="GET">
                 <div class="modal-header">
                     <h4 class="modal-title">Check Appointment</h4>
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>

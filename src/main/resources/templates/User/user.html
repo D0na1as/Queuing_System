@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Customer Service</title>
+</head>
+<body>
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <div class="login">
+            <a href="/" class="btn btn-primary rounded-circle size" >
+                <img th:src="@{/img/home.svg}" data-toggle="tooltip" data-placement="top" title="Login">
+            </a>
+        </div>
+        <h2 class="margin_10" th:text="${'Hi Mr. '+ user.name +'!'}"></h2>
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th class="width" >Date</th>
+                    <th class="width" >Time</th>
+                    <th class="width" >Queue Nr.:</th>
+                    <th class="width" >Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="client:${clients}">
+                        <td th:text="${client.date}"></td>
+                        <td th:text="${client.user}"></td>
+                        <td th:text="${client.queNr}"></td>
+                        <td th:switch="${user.status}">
+                            <div th:case="free">
+                                <div class="dropdown show">
+
+                                    <button class="btn btn-primary btn-sm dropdown-toggle"
+                                            th:disabled="${user.status != 'free'}"  type="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Start/Cancel
+                                    </button>
+                                    <div class="dropdown-menu text-left" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" th:href="@{${client.serial} + '/start'}">Start</a>
+                                        <a class="dropdown-item" th:href="@{${client.serial} + '/cancel'}">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <a th:case="1" type="button" class="btn btn-danger btn-sm" th:href="@{${customer.serial} + '/end'}">End</a>
+                            <p th:case="2" class="font-weight-bold">Meeting ended</p>
+                            <!-- <p th:case="3" class="font-weight-bold">Meeting canceled</p> -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

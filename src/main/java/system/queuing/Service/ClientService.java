@@ -8,6 +8,7 @@ import system.queuing.Repository.ClientRepo;
 import system.queuing.Utils.Utils;
 
 import java.text.ParseException;
+import java.util.List;
 
 @Service
 public class ClientService {
@@ -42,6 +43,10 @@ public class ClientService {
 
     public void cancelMeeting(String serial) {
         clientRepo.cancel(serial, cancel);
+    }
+
+    public List<Client> getClientS(String name, String date) {
+        return clientRepo.getClientS(name, date);
     }
 
     private String genSerial() {
