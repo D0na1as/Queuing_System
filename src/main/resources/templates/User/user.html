@@ -25,7 +25,7 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th class="width" >Date</th>
+                    <th class="width" >Queue Nr.:</th>
                     <th class="width" >Time</th>
                     <th class="width" >Queue Nr.:</th>
                     <th class="width" >Status</th>
@@ -33,28 +33,40 @@
                 </thead>
                 <tbody>
                     <tr th:each="client:${clients}">
-                        <td th:text="${client.date}"></td>
-                        <td th:text="${client.user}"></td>
-                        <td th:text="${client.queNr}"></td>
-                        <td th:switch="${user.status}">
-                            <div th:case="free">
-                                <div class="dropdown show">
-
-                                    <button class="btn btn-primary btn-sm dropdown-toggle"
-                                            th:disabled="${user.status != 'free'}"  type="button"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action
-                                    </button>
-                                    <div class="dropdown-menu text-left" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item" th:href="@{${client.serial} + '/start'}">Start</a>
-                                        <a class="dropdown-item" th:href="@{${client.serial} + '/cancel'}">Cancel</a>
+                        <th:block th:if="${client.status!='canceled'}">
+                            <td th:text="${client.queNr}"></td>
+                            <td th:text="${client.user}"></td>
+                            <td th:text="${client.queNr}"></td>
+                            <td th:switch="${client.status}">
+                                <div th:case="registered">
+                                    <div class="dropdown show">
+                                        <button class="btn btn-primary btn-sm dropdown-toggle"
+                                                th:disabled="${user.status != 'free'}"  type="button"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Action
+                                        </button>
+                                        <div class="dropdown-menu text-left" aria-labelledby="dropdownMenuLink">
+                                            <form th:action="@{./start}" method="POST">
+                                                <input type="hidden" th:value="${client.serial}" name="serial"/>
+                                                <input type="hidden" th:value="${user.username}" name="username"/>
+                                                <button class="dropdown-item" type=submit style="outline: none;}">Start</button>
+                                            </form>
+                                            <form th:action="@{./cancel}" method="POST">
+                                                <input type="hidden" th:value="${client.serial}" name="serial"/>
+                                                <button class="dropdown-item" type=submit style="outline: none;}">Cancel</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <a th:case="1" type="button" class="btn btn-danger btn-sm" th:href="@{${customer.serial} + '/end'}">End</a>
-                            <p th:case="2" class="font-weight-bold">Meeting ended</p>
-                            <!-- <p th:case="3" class="font-weight-bold">Meeting canceled</p> -->
-                        </td>
+                                <form th:case="ongoing"  th:action="@{./end}" method="POST">
+                                    <input type="hidden" th:value="${client.serial}" name="serial"/>
+                                    <input type="hidden" th:value="${user.username}" name="username"/>
+                                    <button class="btn btn-danger btn-sm" type=submit style="outline: none;}">End</button>
+                                </form>
+                                <p th:case="ended" class="font-weight-bold">Meeting ended</p>
+                                <!-- <p th:case="3" class="font-weight-bold">Meeting canceled</p> -->
+                            </td>
+                        </th:block>
                     </tr>
                 </tbody>
             </table>

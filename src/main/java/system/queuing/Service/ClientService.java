@@ -19,8 +19,12 @@ public class ClientService {
     Utils utils;
     @Value("${registered}")
     String registered;
+    @Value("${ongoing}")
+    String ongoing;
     @Value("${canceled}")
     String cancel;
+    @Value("${ended}")
+    String ended;
 
 
     public Client register(String name) throws ParseException {
@@ -30,7 +34,7 @@ public class ClientService {
             Client client = new Client();
             client.setUser(name);
             client.setSerial(genSerial());
-            client.setQueNr(getQueNr(name));
+            client.setQueNr(createQueNr(name));
             client.setStatus(registered);
             client.setDate(date);
             return clientRepo.save(client);
@@ -41,8 +45,16 @@ public class ClientService {
         return clientRepo.getClient(serial);
     }
 
+    public void startMeeting(String serial) {
+        clientRepo.updateStatus(serial, ongoing);
+    }
+
+    public void endMeeting(String serial) {
+        clientRepo.updateStatus(serial, ended);
+    }
+
     public void cancelMeeting(String serial) {
-        clientRepo.cancel(serial, cancel);
+        clientRepo.updateStatus(serial, cancel);
     }
 
     public List<Client> getClientS(String name, String date) {
@@ -59,9 +71,24 @@ public class ClientService {
             }
         }
     }
-    private int getQueNr(String name) {
+    private int createQueNr(String name) {
         int a = clientRepo.getLastQuer(name, utils.getDate());
         return clientRepo.getLastQuer(name, utils.getDate())+1;
     }
 
+    //Get que nr by status
+    public int getQueNr(String name, String date, String status) {
+        return clientRepo.getQueNr(name, date, status);
+    }
+
+    //Get first "count" persons in que
+    public List<Integer> getQue(String name, String date, int count) {
+        List<Integer> list = clientRepo.getQue(name, date, count);
+        if (list.size()<count) {
+            for (int i=list.size(); i<count; i++) {
+                list.add(0);
+            }
+        }
+        return list;
+    }
 }

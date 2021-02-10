@@ -14,7 +14,10 @@ public interface UserRepo extends CrudRepository<User, Integer> {
 
     //Queries
     String selectUsers = "SELECT name FROM "+ table +" WHERE role='user';";
-    String getUser = "SELECT id, name, status FROM "+ table +" WHERE name=?;";
+    String getUser = "SELECT id, username, name, status FROM "+ table +" WHERE username=?;";
+    String getUserStatus = "SELECT status FROM "+ table +" WHERE name=?;";
+
+    String updateStatus = "UPDATE " + table + " SET status=?2 WHERE username=?1";
 
     //Query execution
     @Query(nativeQuery = true, value = selectUsers)
@@ -23,4 +26,11 @@ public interface UserRepo extends CrudRepository<User, Integer> {
     @Query(nativeQuery = true, value = getUser)
     User getUser(String name);
 
+    @Query(nativeQuery = true, value = getUserStatus)
+    String getUserStatus(String name);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(nativeQuery = true, value = updateStatus)
+    void updateStatus(String name,String status);
 }

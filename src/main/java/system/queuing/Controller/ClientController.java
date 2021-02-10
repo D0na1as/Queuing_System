@@ -23,12 +23,10 @@ public class ClientController {
     @Autowired
     UserService userSrv;
 
-    //TODO
-    // 1. Appointment reservation
     //Create item and add
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(@RequestParam("Specialist") String name, Model model) throws ParseException {
-        User user = userSrv.getUser(name);
+        User user = userSrv.getUser("don");
         if (user!=null) {
             Client client = clientSrv.register(name);
             model.addAttribute("client", client);
@@ -54,8 +52,5 @@ public class ClientController {
 
         } else return "index";
     }
-    // 1.1 Return client info page
-    // 2. Checking appointment
-    // 2.2 Return client info page
 
 }

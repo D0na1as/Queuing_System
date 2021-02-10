@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="refresh" content="5">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Customer Service</title>
+</head>
+<body>
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <div class="login">
+            <a href="/" class="btn btn-primary rounded-circle size" >
+                <img th:src="@{/img/home.svg}" data-toggle="tooltip" data-placement="top" title="Login">
+            </a>
+        </div>
+         <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="width" >Specialist</th>
+                        <th class="width" >Current</th>
+                        <th class="width" >1</th>
+                        <th class="width" >2</th>
+                        <th class="width" >3</th>
+                        <th class="width" >4</th>
+                        <th class="width" >5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user:${users}">
+                        <td th:text="${user}"></td>
+                        <th:block th:each="queNr:${data.get(user)}">
+                            <td th:text="${queNr == 0} ? '--' : ${#numbers.formatInteger(queNr,2)}"></td>
+                        </th:block>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>
