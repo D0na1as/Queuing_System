@@ -16,7 +16,7 @@
     <div class="container">
         <div class="login">
             <a href="/" class="btn btn-primary rounded-circle size" >
-                <img th:src="@{/img/home.svg}" data-toggle="tooltip" data-placement="top" title="Login">
+                <img th:src="@{/img/logout.svg}" data-toggle="tooltip" data-placement="top" title="Login">
             </a>
         </div>
         <h2 class="margin_10" th:text="${'Hi Mr. '+ user.name +'!'}"></h2>
@@ -43,7 +43,7 @@
                                     <button class="btn btn-primary btn-sm dropdown-toggle"
                                             th:disabled="${user.status != 'free'}"  type="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Start/Cancel
+                                        Action
                                     </button>
                                     <div class="dropdown-menu text-left" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item" th:href="@{${client.serial} + '/start'}">Start</a>
