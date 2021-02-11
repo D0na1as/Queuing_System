@@ -49,7 +49,7 @@ public class ClientController {
 
     @GetMapping("/check")
     public String check(@RequestParam("serial") String serial, Model model) throws ParseException {
-        Client client = clientSrv.getClient(serial);
+        Client client = clientSrv.getClient(serial.toUpperCase().trim());
         if (client != null) {
             String time = clientSrv.checkTime(client);
             String name = userSrv.getUserByName(client.getUser()).getName();
