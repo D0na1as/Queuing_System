@@ -21,7 +21,7 @@ public interface ClientRepo extends CrudRepository<Client, Integer> {
     String getLastInQue = "SELECT IFNULL((SELECT que_nr FROM "+ table +" WHERE user=?1 AND NOT status='canceled' AND date=?2 ORDER BY que_nr DESC LIMIT 1), 0)";
     String getQueNr = "SELECT que_nr FROM "+ table +" WHERE user=?1 AND date=?2 AND status=?3";
     String getQue = "SELECT IFNULL(que_nr, 0) from (SELECT que_nr FROM "+ table +" WHERE user=?1 AND status='registered' AND date=?2) as tbl  ORDER BY que_nr ASC LIMIT ?3";
-    String getQueLeft = "SELECT COUNT(id) FROM "+ table +" WHERE user=?1 AND status='registered' AND que_nr<=?2";
+    String getQueLeft = "SELECT COUNT(id) FROM "+ table +" WHERE user=?1 AND status='registered' AND que_nr<?2";
 
     String updateStatus = "UPDATE " + table + " SET status=?2 WHERE serial=?1";
 
