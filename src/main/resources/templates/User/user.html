@@ -4,6 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
@@ -11,23 +12,21 @@
     <title>Customer Service</title>
 </head>
 <body>
-
 <section class="jumbotron text-center">
     <div class="container">
-        <div class="login">
-            <a href="/" class="btn btn-primary rounded-circle size" >
+        <div class="login pt-2">
+            <a th:href="@{/user/logout}" class="btn btn-primary rounded-circle size" >
                 <img th:src="@{/img/logout.svg}" data-toggle="tooltip" data-placement="top" title="Login">
             </a>
         </div>
-        <h2 class="margin_10" th:text="${'Hi Mr. '+ user.name +'!'}"></h2>
-
+        <h2 class="mb-4" th:text="${'Hi Mr. '+ user.name +'!'}"></h2>
+        <h4 class="mb-4" style="font-family: 'Orbitron', sans-serif;" th:text="${time}"></h4>
         <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table table-hover mb-5 table_width">
                 <thead>
                 <tr>
                     <th class="width" >Queue Nr.:</th>
-                    <th class="width" >Time</th>
-                    <th class="width" >Queue Nr.:</th>
+                    <th class="width" >Serial</th>
                     <th class="width" >Status</th>
                 </tr>
                 </thead>
@@ -35,26 +34,27 @@
                     <tr th:each="client:${clients}">
                         <th:block th:if="${client.status!='canceled'}">
                             <td th:text="${client.queNr}"></td>
-                            <td th:text="${client.user}"></td>
-                            <td th:text="${client.queNr}"></td>
+                            <td th:text="${client.serial}"></td>
                             <td th:switch="${client.status}">
                                 <div th:case="registered">
-                                    <div class="dropdown show">
-                                        <button class="btn btn-primary btn-sm dropdown-toggle"
-                                                th:disabled="${user.status != 'free'}"  type="button"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Action
-                                        </button>
-                                        <div class="dropdown-menu text-left" aria-labelledby="dropdownMenuLink">
-                                            <form th:action="@{./start}" method="POST">
-                                                <input type="hidden" th:value="${client.serial}" name="serial"/>
-                                                <input type="hidden" th:value="${user.username}" name="username"/>
-                                                <button class="dropdown-item" type=submit style="outline: none;}">Start</button>
-                                            </form>
-                                            <form th:action="@{./cancel}" method="POST">
-                                                <input type="hidden" th:value="${client.serial}" name="serial"/>
-                                                <button class="dropdown-item" type=submit style="outline: none;}">Cancel</button>
-                                            </form>
+                                    <div class="dropdown">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary btn-sm dropdown-toggle"
+                                                    th:disabled="${user.status != 'free'}"  type="button"
+                                                    data-toggle="dropdown" data-display="static" aria-expanded="false">
+                                                Action
+                                            </button>
+                                            <div class="dropdown-menu text-left" aria-labelledby="dropdownMenuLink">
+                                                <form th:action="@{./start}" method="POST">
+                                                    <input type="hidden" th:value="${client.serial}" name="serial"/>
+                                                    <input type="hidden" th:value="${user.username}" name="username"/>
+                                                    <button class="dropdown-item" type=submit style="outline: none;}">Start</button>
+                                                </form>
+                                                <form th:action="@{./cancel}" method="POST">
+                                                    <input type="hidden" th:value="${client.serial}" name="serial"/>
+                                                    <button class="dropdown-item" type=submit style="outline: none;}">Cancel</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                     <input type="hidden" th:value="${user.username}" name="username"/>
                                     <button class="btn btn-danger btn-sm" type=submit style="outline: none;}">End</button>
                                 </form>
-                                <p th:case="ended" class="font-weight-bold">Meeting ended</p>
+                                <p th:case="ended" class="success"><b>Meeting ended</b></p>
                                 <!-- <p th:case="3" class="font-weight-bold">Meeting canceled</p> -->
                             </td>
                         </th:block>

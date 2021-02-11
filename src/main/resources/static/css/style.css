@@ -7,10 +7,6 @@ html, body {
 
 section {
   min-height: 100%;
-  /* Center Items
-  display: grid;
-  place-items: center;
-  */
 }
 
 h1 {
@@ -19,7 +15,7 @@ h1 {
 
 table{
     margin: auto;
-    width: 30%;
+    width: 60%;
     border: 0;
     border-spacing: 0;
     border-collapse: collapse;
@@ -30,8 +26,12 @@ table{
     width: 100px;
 }
 
-.margin_10 {
-    margin-bottom: 20px;
+.table_width {
+    width: 60%;
+}
+
+.success {
+    color: #5cb85c;
 }
 
 .size {
@@ -60,11 +60,10 @@ input[type="number"] {
     display: inline;
 }
 
-/*
-img:hover { /* svg on an img tag */
-/*
-     color: #d9534f;
-}
-*/
+.center {
+  display: grid;
+  place-items: center;
+ }
+
 
 

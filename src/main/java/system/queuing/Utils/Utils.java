@@ -47,9 +47,59 @@ public class Utils {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         Date begin =  format.parse(start);
         Date finish =  format.parse(end);
-        long diff = finish.getTime() - begin.getTime();
-        long diffMinutes = diff / (60 * 1000);
-        return (int) (diffMinutes / Integer.parseInt(duration));
+        Date now = format.parse(getTime());
+        if (now.getTime()>=begin.getTime() && now.getTime()<finish.getTime()) {
+            long diff = finish.getTime() - now.getTime();
+            long diffMinutes = diff / (60 * 1000);
+            return (int) (diffMinutes / Integer.parseInt(duration));
+        } else {
+            long diff = finish.getTime() - begin.getTime();
+            long diffMinutes = diff / (60 * 1000);
+            return (int) (diffMinutes / Integer.parseInt(duration));
+        }
     }
 
+    //Time left info
+    public String timeLeft(int queLeft) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        Date begin = format.parse(start);
+        Date finish = format.parse(end);
+        Date now = format.parse(getTime());
+        long waitingTime;
+        int h;
+        int min;
+
+        if (now.getTime() < begin.getTime()) {
+            waitingTime = begin.getTime() - now.getTime();
+
+            if (queLeft > 1) {
+                waitingTime += Integer.parseInt(duration) * (queLeft - 1) * (60 * 1000);
+            }
+            waitingTime = waitingTime / (60 * 1000);
+            h = (int) (waitingTime / 60);
+            min = (int) (waitingTime - h * 60);
+
+            if (h==0) return String.format("%02dmin",min);
+            else return String.format("%02dh %02dmin", h, min);
+
+        } else if (now.getTime() < finish.getTime()) {
+
+            if (queLeft == 1) {
+                return "Wait for Invitation!";
+
+            } else if (queLeft == 2){
+                return "Next is Your Turn!";
+
+            } else {
+                waitingTime = Integer.parseInt(duration) * (queLeft - 1) * (60 * 1000);
+                waitingTime = waitingTime / (60 * 1000);
+                h = (int) (waitingTime / 60);
+                min = (int) (waitingTime - h * 60);
+
+                if (h==0) return String.format("%02dmin",min);
+                else return String.format("%02dh %02dmin", h, min);
+            }
+
+        } else return "Won't make it today!";
+    }
 }

@@ -13,29 +13,25 @@
 <body>
 <section class="jumbotron text-center">
     <div class="container">
-        <div class="login">
+        <div class="login pt-2">
             <a th:href="@{/user/screen}"  class="btn btn-primary rounded-circle size"  data-toggle="modal" data-target="#loginModal">
                 <img th:src="@{/img/login.svg}" data-toggle="tooltip" data-placement="top" title="Login">
             </a>
         </div>
         <h1>Registration System</h1>
-        <table class="align-top borderless">
-            <thead>
-            <tr>
-                <th class="col-sm align-right" data-toggle="tooltip" data-placement="top" title="Register For an Appointment">
-                    <button class="btn btn-primary rounded-pill btn-lg" type="button" data-toggle="modal" data-target="#chooseModal">Register</button>
-                </th>
-                <th class="col-sm align-left" data-toggle="tooltip" data-placement="top" title="Check Existing Appointment">
-                    <button class="btn btn-primary rounded-pill btn-lg" type="button" data-toggle="modal" data-target="#checkModal">Check</button>
-                </th>
-            </tr>
-            </thead>
-        </table>
+        <div class="d-flex justify-content-center">
+            <div class="m-2">
+                <button class="btn btn-primary rounded-pill btn-lg" type="button" data-toggle="modal" data-target="#chooseModal">Register</button>
+            </div>
+            <div class="m-2">
+                <button class="btn btn-primary rounded-pill btn-lg" type="button" data-toggle="modal" data-target="#checkModal">Check</button>
+            </div>
+        </div>
     </div>
 </section>
 <!-- Choose Specialist Modal HTML -->
 <div id="chooseModal" class="modal fade bg-dark" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <form th:action="@{/client/register}" method="POST">
                 <div class="modal-header">
@@ -43,8 +39,11 @@
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <select name="Specialist" class="custom-select border rounded d-inline-block" th:each="user:${users}" required>
-                        <option th:value="${user}" th:text="${user}"></option>
+                    <select name="Specialist" class="custom-select border rounded d-inline-block" required>
+                        <option disabled="disabled" selected>Choose Specialist</option>
+                        <th:block th:each="user:${users}">
+                            <option th:value="${user.id}" th:text="${user.name}"></option>
+                        </th:block>
                     </select>
                 </div>
                 <div class="modal-footer justify-content-end">
@@ -57,7 +56,7 @@
 </div>
 <!-- Check Appointment Modal HTML -->
 <div id="checkModal" class="modal fade bg-dark" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <form th:action="@{/client/check}" method="GET">
                 <div class="modal-header">
@@ -80,9 +79,9 @@
 </div>
 <!-- Check Appointment Modal HTML -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog  modal-sm">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <form th:action="@{/client/check}" method="GET">
+            <form th:action="@{/}" method="POST">
                 <div class="modal-header text-center">
                     <h4 class="modal-title">Login</h4>
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
@@ -92,7 +91,7 @@
                         <input type="text" name="username"  class="form-control" required="required" placeholder="Username">
                     </div>
                     <div class="form-group">
-                        <input type="text" name="password"  class="form-control" required="required" placeholder="Password">
+                        <input type="password" name="password"  class="form-control" required="required" placeholder="Password">
                     </div>
                 </div>
                 <div class="modal-footer">

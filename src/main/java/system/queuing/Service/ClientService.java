@@ -27,14 +27,14 @@ public class ClientService {
     String ended;
 
 
-    public Client register(String name) throws ParseException {
+    public Client register(String username) throws ParseException {
         String date =  utils.getDate();
-        int count = clientRepo.getCount(name, date);
+        int count = clientRepo.getCount(username, date);
         if (count<utils.maxSlots()) {
             Client client = new Client();
-            client.setUser(name);
+            client.setUser(username);
             client.setSerial(genSerial());
-            client.setQueNr(createQueNr(name));
+            client.setQueNr(createQueNr(username));
             client.setStatus(registered);
             client.setDate(date);
             return clientRepo.save(client);
@@ -57,8 +57,21 @@ public class ClientService {
         clientRepo.updateStatus(serial, cancel);
     }
 
-    public List<Client> getClientS(String name, String date) {
-        return clientRepo.getClientS(name, date);
+    public List<Client> getClientS(String username, String date) {
+        return clientRepo.getClientS(username, date);
+    }
+
+    public int getQueLeft(String name, int queNr) {
+        return clientRepo.getQueLeft(name, queNr);
+    }
+
+    public String checkTime(Client client) throws ParseException {
+        if (client.getDate().equals(utils.getDate())) {
+            int queLeft = clientRepo.getQueLeft(client.getUser(), client.getQueNr());
+            return utils.timeLeft(queLeft);
+        } else {
+            return "Day Passed";
+        }
     }
 
     private String genSerial() {
@@ -71,19 +84,18 @@ public class ClientService {
             }
         }
     }
-    private int createQueNr(String name) {
-        int a = clientRepo.getLastQuer(name, utils.getDate());
-        return clientRepo.getLastQuer(name, utils.getDate())+1;
+    private int createQueNr(String username) {
+        return clientRepo.getLastQuer(username, utils.getDate())+1;
     }
 
     //Get que nr by status
-    public int getQueNr(String name, String date, String status) {
-        return clientRepo.getQueNr(name, date, status);
+    public int getQueNr(String username, String date, String status) {
+        return clientRepo.getQueNr(username, date, status);
     }
 
-    //Get first "count" persons in que
-    public List<Integer> getQue(String name, String date, int count) {
-        List<Integer> list = clientRepo.getQue(name, date, count);
+    //Get first "count" persons in que (for screen)
+    public List<Integer> getQue(String username, String date, int count) {
+        List<Integer> list = clientRepo.getQue(username, date, count);
         if (list.size()<count) {
             for (int i=list.size(); i<count; i++) {
                 list.add(0);

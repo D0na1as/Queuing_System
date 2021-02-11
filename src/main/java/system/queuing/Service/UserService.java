@@ -30,16 +30,20 @@ public class UserService {
     String ongoing;
 
 
-    public List<String> getUsers() {
+    public List<User> getUsers() {
         return userRepo.getUsers();
     }
 
-    public User getUser(String username) {
-        return userRepo.getUser(username);
+    public User getUserById(int id) {
+        return userRepo.getUser(id);
     }
 
-    public String getUserStatus(String name) {
-        return userRepo.getUserStatus(name);
+    public User getUserByName(String username) {
+        return userRepo.getUserByName(username);
+    }
+
+    public String getUserStatus(String username) {
+        return userRepo.getUserStatus(username);
     }
 
     public void startMeeting(String username) {
@@ -53,23 +57,23 @@ public class UserService {
     //Info screen data
     public Map<String, List<Integer>> getScreen() {
 
-        List<String> userList = getUsers();
+        List<User> userList = getUsers();
         Map<String,  List<Integer>> data = new HashMap<>();
 
-        for (String name:userList) {
-            List<Integer> waitingLn = clientSrv.getQue(name, utils.getDate(), 5);
-            String status = userSrv.getUserStatus(name);
+        for (User user:userList) {
+            List<Integer> waitingLn = clientSrv.getQue(user.getUsername(), utils.getDate(), 5);
+            String status = userSrv.getUserStatus(user.getUsername());
             List<Integer> current = new ArrayList<>();
 
             if (status.equals(occupied)) {
-                current.add(clientSrv.getQueNr(name, utils.getDate(), ongoing));
+                current.add(clientSrv.getQueNr(user.getUsername(), utils.getDate(), ongoing));
             } else {
                 current.add(0);
             }
             waitingLn = Stream.of(current, waitingLn)
                     .flatMap(Collection::stream)
                     .collect(Collectors.toList());
-            data.put(name, waitingLn);
+            data.put(user.getUsername(), waitingLn);
         }
     return data;
     }

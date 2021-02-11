@@ -1,6 +1,8 @@
 package system.queuing.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +16,8 @@ import system.queuing.Service.UserService;
 import system.queuing.Utils.Utils;
 
 import java.text.ParseException;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -31,11 +33,12 @@ public class UserController {
 
     @GetMapping("/")
     public String index(Model model) throws ParseException {
-        String name = "don";
-        User user = userSrv.getUser(name);
-        List<Client> clients = clientSrv.getClientS("Don Johnson", utils.getDate());
+        String username = getUsername();
+        User user = userSrv.getUserByName(username);
+        List<Client> clients = clientSrv.getClientS(username,utils.getDate());
         model.addAttribute("clients", clients);
         model.addAttribute("user", user);
+        model.addAttribute("time", utils.getTime());
         return "User/user";
     }
 
@@ -63,13 +66,28 @@ public class UserController {
         return "redirect:/user/";
     }
 
-    @GetMapping("/screen")
-    public String screen(Model model) throws ParseException {
-        List<String> userList = userSrv.getUsers();
-        Map<String, List<Integer>> data = userSrv.getScreen();
-        model.addAttribute("users", userList);
-        model.addAttribute("data", data);
-        return "User/screen";
+    @GetMapping("/logout")
+    public String logout() {
+        SecurityContextHolder.getContext().setAuthentication(null);
+        return "redirect:/";
     }
 
+    //Get current username
+    private static String getUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    //Check if it's user or screen
+    private boolean hasRole (String role) {
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>)
+                SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        boolean hasRole = false;
+        for (GrantedAuthority authority : authorities) {
+            hasRole = authority.getAuthority().equals(role);
+            if (hasRole) {
+                break;
+            }
+        }
+        return hasRole;
+    }
 }

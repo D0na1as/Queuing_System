@@ -25,11 +25,15 @@ public class ClientController {
 
     //Create item and add
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String register(@RequestParam("Specialist") String name, Model model) throws ParseException {
-        User user = userSrv.getUser("don");
+    public String register(@RequestParam("Specialist") int id, Model model) throws ParseException {
+        User user = userSrv.getUserById(id);
         if (user!=null) {
-            Client client = clientSrv.register(name);
+            Client client = clientSrv.register(user.getUsername());
+            String name = userSrv.getUserById(id).getName();
+            String time = clientSrv.checkTime(client);
             model.addAttribute("client", client);
+            model.addAttribute("name", name);
+            model.addAttribute("timeLeft", time);
             return "Client/client";
         }
         return "index";
@@ -47,7 +51,11 @@ public class ClientController {
     public String check(@RequestParam("serial") String serial, Model model) throws ParseException {
         Client client = clientSrv.getClient(serial);
         if (client != null) {
+            String time = clientSrv.checkTime(client);
+            String name = userSrv.getUserByName(client.getUser()).getName();
             model.addAttribute("client", client);
+            model.addAttribute("name", name);
+            model.addAttribute("timeLeft", time);
             return "Client/client";
 
         } else return "index";

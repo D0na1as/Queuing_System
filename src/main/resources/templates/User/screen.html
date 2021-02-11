@@ -4,6 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
     <meta http-equiv="refresh" content="5">
 
     <!-- Bootstrap CSS -->
@@ -15,11 +16,12 @@
 
 <section class="jumbotron text-center">
     <div class="container">
-        <div class="login">
-            <a href="/" class="btn btn-primary rounded-circle size" >
-                <img th:src="@{/img/home.svg}" data-toggle="tooltip" data-placement="top" title="Login">
+        <div class="login pt-2">
+            <a th:href="@{/screen/logout}" class="btn btn-primary rounded-circle size" >
+                <img th:src="@{/img/logout.svg}" data-toggle="tooltip" data-placement="top" title="Login">
             </a>
         </div>
+        <H1 th:text="${time}" style="font-family: 'Orbitron', sans-serif; font-size: 300%;"></H1>
          <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
@@ -35,8 +37,8 @@
                 </thead>
                 <tbody>
                     <tr th:each="user:${users}">
-                        <td th:text="${user}"></td>
-                        <th:block th:each="queNr:${data.get(user)}">
+                        <td th:text="${user.name}"></td>
+                        <th:block th:each="queNr:${data.get(user.username)}">
                             <td th:text="${queNr == 0} ? '--' : ${#numbers.formatInteger(queNr,2)}"></td>
                         </th:block>
                     </tr>
