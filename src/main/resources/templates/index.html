@@ -51,7 +51,6 @@
                 </div>
                 <div class="modal-body">
                     <select name="Specialist" class="custom-select border rounded d-inline-block" required>
-                        <option disabled="disabled" selected>Choose Specialist</option>
                         <th:block th:each="user:${users}">
                             <option th:value="${user.id}" th:text="${user.name}"></option>
                         </th:block>
