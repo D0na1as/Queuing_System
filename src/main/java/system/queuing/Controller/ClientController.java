@@ -44,7 +44,7 @@ public class ClientController {
         clientSrv.cancelMeeting(serial);
         Client client = clientSrv.getClient(serial);
         model.addAttribute("client", client);
-        return "index";
+        return "redirect:/";
     }
 
     @GetMapping("/check")
