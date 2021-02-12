@@ -1,6 +1,7 @@
 # Queuing_System
 
 https://theighties.herokuapp.com/
+https://github.com/D0na1as/Queuing_System 
 
 Registration requares no password. Press "Register", choose mentor and thats it.
 Reservation check happens with provided serial number. Press check and enter serial.
