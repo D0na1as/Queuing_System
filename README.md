@@ -23,7 +23,7 @@ Info screen can be reached by loging in with credentials:
   
 Log out button appiers in top left corner (insted of login button)
    
-Time frames are described in application.properties
+Time frames are described in /src/main/resources/application.properties
 
   Assumptions:
   
