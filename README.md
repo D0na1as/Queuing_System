@@ -24,7 +24,11 @@ Info screen can be reached by loging in with credentials:
 Log out button appiers in top left corner (insted of login button)
    
 Time frames are described in application.properties
+
   Assumptions:
+  
     works starts at 08:00
+    
     work ends at 16:00
+    
     every customer gets 15 min
