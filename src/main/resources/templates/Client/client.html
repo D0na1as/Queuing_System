@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Remember The Eighties</title>
+</head>
+<body>
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <div class="login pt-2">
+            <a href="/" class="btn btn-primary rounded-circle size" >
+                <img th:src="@{/img/home.svg}" data-toggle="tooltip" data-placement="top" title="Login">
+            </a>
+        </div>
+        <h2 class="mb-5" th:text="${'Prepare to meet '+ name +'!'}"></h2>
+        <h2 class="text-danger mb-5" th:text="${client.status == 'registered'} ? ${'Until meeting left: ' + timeLeft}"></h2>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="width" >Date</th>
+                        <th class="width" >Que Nr.</th>
+                        <th class="width" >Serial</th>
+                        <th class="width" >Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${client.date}"></td>
+                        <td th:text="${#numbers.formatInteger(client.queNr,2)}"></td>
+                        <td th:text="${client.serial}"></td>
+                        <td th:switch="${client.status}">
+                            <form th:case="registered" th:action="@{./cancel}" method="POST">
+                                <input type="hidden" th:value="${client.serial}" name="serial" class="btn btn-link" />
+                                <button type=submit class="btn btn-danger btn-sm">Cancel</button>
+                            </form>
+                            <a th:case="ongoing"  class="font-weight-bold" style="color:green;">On Going</a>
+                            <p th:case="ended" class="font-weight-bold">Meeting Ended</p>
+                            <p th:case="canceled" class="font-weight-bold" style="color:red;">Meeting Canceled</p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>
