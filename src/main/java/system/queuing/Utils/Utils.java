@@ -83,15 +83,15 @@ public class Utils {
             else return String.format("%02dh %02dmin", h, min);
 
         } else if (now.getTime() < finish.getTime()) {
-
-            if (queLeft == 1) {
+            if (queLeft == 0) {
                 return "Wait for Invitation!";
 
-            } else if (queLeft == 2){
+            } else if (queLeft == 1){
                 return "Next is Your Turn!";
 
             } else {
-                waitingTime = Integer.parseInt(duration) * (queLeft - 1) * (60 * 1000);
+
+                waitingTime = Integer.parseInt(duration) * queLeft * (60 * 1000);
                 waitingTime = waitingTime / (60 * 1000);
                 h = (int) (waitingTime / 60);
                 min = (int) (waitingTime - h * 60);
