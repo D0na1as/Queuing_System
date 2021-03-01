@@ -24,11 +24,10 @@ public class MainController {
     Utils utils;
 
     @GetMapping("/")
-    public String index(@RequestParam(value = "error", required = false) boolean error, Model model) throws ParseException {
+    public String index(@RequestParam(value = "templates/error", required = false) boolean error, Model model) throws ParseException {
         List<User> userList = userSrv.getUsers();
         model.addAttribute("users", userList);
-        model.addAttribute("error", error);
+        model.addAttribute("templates/error", error);
         return "index";
     }
-
 }

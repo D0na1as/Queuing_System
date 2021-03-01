@@ -19,9 +19,9 @@ public class SecurityHandler implements AuthenticationSuccessHandler {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-        if (roles.contains("user")) {
+        if (roles.contains(Roles.user.name())) {
             redirectStrategy.sendRedirect(request, response, "/user/");
-        } else if (roles.contains("screen")) {
+        } else if (roles.contains(Roles.screen.name())) {
             redirectStrategy.sendRedirect(request, response, "/screen/");
         }
     }

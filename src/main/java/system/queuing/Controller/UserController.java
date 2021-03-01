@@ -1,6 +1,7 @@
 package system.queuing.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Controller
+@PreAuthorize("hasAuthority('user')")
 @RequestMapping("/user")
 public class UserController {
 

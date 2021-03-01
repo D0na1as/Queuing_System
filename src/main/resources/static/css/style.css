@@ -10,7 +10,7 @@ section {
 }
 
 h1 {
-    margin: 70px 0 40px 0;
+   margin: 70px 0 40px 0;
 }
 
 table{
@@ -64,6 +64,3 @@ input[type="number"] {
   display: grid;
   place-items: center;
  }
-
-
-

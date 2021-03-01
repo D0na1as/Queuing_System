@@ -1,11 +1,13 @@
 package system.queuing.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import system.queuing.Config.Roles;
 import system.queuing.Model.User;
 import system.queuing.Service.UserService;
 import system.queuing.Utils.Utils;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@PreAuthorize("hasAuthority('screen')")
 @RequestMapping("/screen")
 public class ScreenController {
 
