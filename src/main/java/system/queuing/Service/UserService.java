@@ -3,6 +3,8 @@ package system.queuing.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import system.queuing.Config.ClientStatus;
+import system.queuing.Config.UserStatus;
 import system.queuing.Model.User;
 import system.queuing.Repository.UserRepo;
 import system.queuing.Utils.Utils;
@@ -22,12 +24,6 @@ public class UserService {
     UserService userSrv;
     @Autowired
     Utils utils;
-    @Value("${free}")
-    String free;
-    @Value("${occupied}")
-    String occupied;
-    @Value("${ongoing}")
-    String ongoing;
 
 
     public List<User> getUsers() {
@@ -42,16 +38,16 @@ public class UserService {
         return userRepo.getUserByName(username);
     }
 
-    public String getUserStatus(String username) {
-        return userRepo.getUserStatus(username);
+    public UserStatus getUserStatus(String username) {
+        return UserStatus.valueOf(userRepo.getUserStatus(username));
     }
 
     public void startMeeting(String username) {
-        userRepo.updateStatus(username, occupied);
+        userRepo.updateStatus(username, UserStatus.occupied);
     }
 
     public void endMeeting(String username) {
-        userRepo.updateStatus(username, free);
+        userRepo.updateStatus(username, UserStatus.free);
     }
 
     //Info screen data
@@ -62,11 +58,11 @@ public class UserService {
 
         for (User user:userList) {
             List<Integer> waitingLn = clientSrv.getQue(user.getUsername(), utils.getDate(), 5);
-            String status = userSrv.getUserStatus(user.getUsername());
+            UserStatus status = userSrv.getUserStatus(user.getUsername());
             List<Integer> current = new ArrayList<>();
 
-            if (status.equals(occupied)) {
-                current.add(clientSrv.getQueNr(user.getUsername(), utils.getDate(), ongoing));
+            if (status.equals(UserStatus.occupied)) {
+                current.add(clientSrv.getQueNr(user.getUsername(), utils.getDate(), ClientStatus.ongoing));
             } else {
                 current.add(0);
             }

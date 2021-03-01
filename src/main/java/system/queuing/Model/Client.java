@@ -1,5 +1,7 @@
 package system.queuing.Model;
 
+import system.queuing.Config.ClientStatus;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,7 +12,8 @@ public class Client {
     @Column(name="que_nr")
     private int queNr;
     private String serial;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ClientStatus status;
     private String date;
     //Receiving person
     private String user;
@@ -18,7 +21,7 @@ public class Client {
     public Client() {
     }
 
-    public Client(int id, int queNr, String serial, String status, String date, String user) {
+    public Client(int id, int queNr, String serial, ClientStatus status, String date, String user) {
         this.id = id;
         this.queNr = queNr;
         this.serial = serial;
@@ -51,11 +54,11 @@ public class Client {
         this.serial = serial;
     }
 
-    public String getStatus() {
+    public ClientStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ClientStatus status) {
         this.status = status;
     }
 

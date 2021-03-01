@@ -20,7 +20,7 @@
             </a>
         </div>
         <h2 class="mb-5" th:text="${'Prepare to meet '+ name +'!'}"></h2>
-        <h2 class="text-danger mb-5" th:text="${client.status == 'registered'} ? ${'Until meeting left: ' + timeLeft}"></h2>
+        <h2 class="text-danger mb-5" th:text="${client.status == T(system.queuing.Config.ClientStatus).registered} ? ${'Until meeting left: ' + timeLeft}"></h2>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -37,13 +37,13 @@
                         <td th:text="${#numbers.formatInteger(client.queNr,2)}"></td>
                         <td th:text="${client.serial}"></td>
                         <td th:switch="${client.status}">
-                            <form th:case="registered" th:action="@{./cancel}" method="POST">
+                            <form th:case="${T(system.queuing.Config.ClientStatus).registered}" th:action="@{./cancel}" method="POST">
                                 <input type="hidden" th:value="${client.serial}" name="serial" class="btn btn-link" />
                                 <button type=submit class="btn btn-danger btn-sm">Cancel</button>
                             </form>
-                            <a th:case="ongoing"  class="font-weight-bold" style="color:green;">On Going</a>
-                            <p th:case="ended" class="font-weight-bold">Meeting Ended</p>
-                            <p th:case="canceled" class="font-weight-bold" style="color:red;">Meeting Canceled</p>
+                            <a th:case="${T(system.queuing.Config.ClientStatus).ongoing}"  class="font-weight-bold" style="color:green;">On Going</a>
+                            <p th:case="${T(system.queuing.Config.ClientStatus).ended}" class="font-weight-bold">Meeting Ended</p>
+                            <p th:case="${T(system.queuing.Config.ClientStatus).canceled}" class="font-weight-bold" style="color:red;">Meeting Canceled</p>
                         </td>
                     </tr>
                     </tbody>

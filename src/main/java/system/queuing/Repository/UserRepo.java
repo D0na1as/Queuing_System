@@ -3,6 +3,8 @@ package system.queuing.Repository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import system.queuing.Config.UserStatus;
 import system.queuing.Model.User;
 
 import javax.transaction.Transactional;
@@ -18,7 +20,7 @@ public interface UserRepo extends CrudRepository<User, Integer> {
     String getUserByName = "SELECT id, username, name, status FROM "+ table +" WHERE username=?;";
     String getUserStatus = "SELECT status FROM "+ table +" WHERE username=?;";
 
-    String updateStatus = "UPDATE " + table + " SET status=?2 WHERE username=?1";
+    String updateStatus = "UPDATE " + table + " SET status=:#{#status.name()} WHERE username=?1";
 
     //Query execution
     @Query(nativeQuery = true, value = selectUsers)
@@ -36,6 +38,6 @@ public interface UserRepo extends CrudRepository<User, Integer> {
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(nativeQuery = true, value = updateStatus)
-    void updateStatus(String username,String status);
+    void updateStatus(String username, @Param("status")UserStatus status);
 
 }

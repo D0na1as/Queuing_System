@@ -1,8 +1,9 @@
 package system.queuing.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import system.queuing.Config.Roles;
+import system.queuing.Config.UserStatus;
+
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -13,16 +14,18 @@ public class User {
     private String name;
     @Transient
     private String password;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
     @Transient
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Roles role;
     @Transient
     private boolean enabled;
 
     public User() {
     }
 
-    public User(int id, String username, String name, String password, String status, String role, boolean enabled) {
+    public User(int id, String username, String name, String password, UserStatus status, Roles role, boolean enabled) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -64,19 +67,19 @@ public class User {
         this.password = password;
     }
 
-    public String getStatus() {
+    public UserStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(UserStatus status) {
         this.status = status;
     }
 
-    public String getRole() {
+    public Roles getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Roles role) {
         this.role = role;
     }
 

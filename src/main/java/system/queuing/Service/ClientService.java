@@ -3,6 +3,8 @@ package system.queuing.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import system.queuing.Config.ClientStatus;
+import system.queuing.Config.UserStatus;
 import system.queuing.Model.Client;
 import system.queuing.Repository.ClientRepo;
 import system.queuing.Utils.Utils;
@@ -17,14 +19,6 @@ public class ClientService {
     ClientRepo clientRepo;
     @Autowired
     Utils utils;
-    @Value("${registered}")
-    String registered;
-    @Value("${ongoing}")
-    String ongoing;
-    @Value("${canceled}")
-    String cancel;
-    @Value("${ended}")
-    String ended;
 
 
     public Client register(String username) throws ParseException {
@@ -35,7 +29,7 @@ public class ClientService {
             client.setUser(username);
             client.setSerial(genSerial());
             client.setQueNr(createQueNr(username));
-            client.setStatus(registered);
+            client.setStatus(ClientStatus.registered);
             client.setDate(date);
             return clientRepo.save(client);
         } else return null;
@@ -46,15 +40,15 @@ public class ClientService {
     }
 
     public void startMeeting(String serial) {
-        clientRepo.updateStatus(serial, ongoing);
+        clientRepo.updateStatus(serial, ClientStatus.ongoing);
     }
 
     public void endMeeting(String serial) {
-        clientRepo.updateStatus(serial, ended);
+        clientRepo.updateStatus(serial, ClientStatus.ended);
     }
 
     public void cancelMeeting(String serial) {
-        clientRepo.updateStatus(serial, cancel);
+        clientRepo.updateStatus(serial, ClientStatus.canceled);
     }
 
     public List<Client> getClientS(String username, String date) {
@@ -62,12 +56,14 @@ public class ClientService {
     }
 
     public int getQueLeft(String name, int queNr) {
-        return clientRepo.getQueLeft(name, queNr);
+        return clientRepo.getQueLeft(name, queNr, ClientStatus.registered);
     }
 
     public String checkTime(Client client) throws ParseException {
         if (client.getDate().equals(utils.getDate())) {
-            int queLeft = clientRepo.getQueLeft(client.getUser(), client.getQueNr());
+            int queLeftReg = clientRepo.getQueLeft(client.getUser(), client.getQueNr(), ClientStatus.registered);
+            int queLeftOng = clientRepo.getQueLeft(client.getUser(), client.getQueNr(), ClientStatus.ongoing);
+            int queLeft = queLeftReg + queLeftOng;
             return utils.timeLeft(queLeft);
         } else {
             return "Day Passed";
@@ -89,7 +85,7 @@ public class ClientService {
     }
 
     //Get que nr by status
-    public int getQueNr(String username, String date, String status) {
+    public int getQueNr(String username, String date, ClientStatus status) {
         return clientRepo.getQueNr(username, date, status);
     }
 
