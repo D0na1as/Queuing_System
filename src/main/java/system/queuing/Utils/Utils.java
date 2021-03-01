@@ -100,6 +100,6 @@ public class Utils {
                 else return String.format("%02dh %02dmin", h, min);
             }
 
-        } else return "Won't make it today!";
+        } else return null;
     }
 }

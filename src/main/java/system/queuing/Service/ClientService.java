@@ -24,7 +24,7 @@ public class ClientService {
     public Client register(String username) throws ParseException {
         String date =  utils.getDate();
         int count = clientRepo.getCount(username, date);
-        if (count<utils.maxSlots()) {
+        if (count<utils.maxSlots() && utils.timeLeft(count)!=null) {
             Client client = new Client();
             client.setUser(username);
             client.setSerial(genSerial());

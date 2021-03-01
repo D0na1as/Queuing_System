@@ -29,12 +29,14 @@ public class ClientController {
         User user = userSrv.getUserById(id);
         if (user!=null) {
             Client client = clientSrv.register(user.getUsername());
-            String name = userSrv.getUserById(id).getName();
-            String time = clientSrv.checkTime(client);
-            model.addAttribute("client", client);
-            model.addAttribute("name", name);
-            model.addAttribute("timeLeft", time);
-            return "Client/client";
+            if (client!=null) {
+                String name = userSrv.getUserById(id).getName();
+                String time = clientSrv.checkTime(client);
+                model.addAttribute("client", client);
+                model.addAttribute("name", name);
+                model.addAttribute("timeLeft", time);
+                return "Client/client";
+            } else return "redirect:/?full=true";
         }
         return "index";
     }
