@@ -42,9 +42,7 @@ public class ClientController {
     @RequestMapping( value = "/cancel", method = RequestMethod.POST)
     public String cancel(@RequestParam("serial") String serial, Model model) throws ParseException {
         clientSrv.cancelMeeting(serial);
-        Client client = clientSrv.getClient(serial);
-        model.addAttribute("client", client);
-        return "redirect:/";
+        return "redirect:/client/check?serial="+serial;
     }
 
     @GetMapping("/check")
