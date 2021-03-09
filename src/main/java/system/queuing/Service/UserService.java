@@ -1,7 +1,6 @@
 package system.queuing.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import system.queuing.Config.ClientStatus;
 import system.queuing.Config.UserStatus;
@@ -24,7 +23,6 @@ public class UserService {
     UserService userSrv;
     @Autowired
     Utils utils;
-
 
     public List<User> getUsers() {
         return userRepo.getUsers();
@@ -54,9 +52,9 @@ public class UserService {
     public Map<String, List<Integer>> getScreen() {
 
         List<User> userList = getUsers();
-        Map<String,  List<Integer>> data = new HashMap<>();
+        Map<String, List<Integer>> data = new HashMap<>();
 
-        for (User user:userList) {
+        for (User user : userList) {
             List<Integer> waitingLn = clientSrv.getQue(user.getUsername(), utils.getDate(), 5);
             UserStatus status = userSrv.getUserStatus(user.getUsername());
             List<Integer> current = new ArrayList<>();
@@ -71,6 +69,6 @@ public class UserService {
                     .collect(Collectors.toList());
             data.put(user.getUsername(), waitingLn);
         }
-    return data;
+        return data;
     }
 }
