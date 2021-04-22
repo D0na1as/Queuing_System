@@ -23,6 +23,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final String table = "user";
     @Autowired
     SecurityHandler successHandler;
+    @Autowired
+    UnauthenticatedHandler unAuthHandler;
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
@@ -34,6 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/img/**").permitAll()
                 .anyRequest().authenticated()
+                .and().exceptionHandling().accessDeniedPage("/error/403.html")
+                .and().exceptionHandling().authenticationEntryPoint(unAuthHandler)
                 .and()
                     .formLogin()
                     .loginPage("/")
@@ -43,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll()
-                .and().exceptionHandling().accessDeniedPage("/error/403");
+                .and();
     }
 
     @Override
